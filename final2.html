@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadratic Equation Plotter</title>
+    <!-- Import Plotly.js for graph plotting -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .input-fields {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .input-fields div {
+            margin-bottom: 10px;
+            flex: 1;
+            min-width: 200px;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .chart-container {
+            margin-top: 30px;
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quadratic Equation Plotter</h1>
+        
+        <div class="input-fields">
+            <!-- Input fields for coefficients -->
+            <div>
+                <label for="a1">a1:</label>
+                <input type="number" id="a1" value="1">
+            </div>
+            <div>
+                <label for="b1">b1:</label>
+                <input type="number" id="b1" value="2">
+            </div>
+            <div>
+                <label for="c1">c1:</label>
+                <input type="number" id="c1" value="3">
+            </div>
+        </div>
+        
+        <div class="input-fields">
+            <div>
+                <label for="a2">a2:</label>
+                <input type="number" id="a2" value="2">
+            </div>
+            <div>
+                <label for="b2">b2:</label>
+                <input type="number" id="b2" value="-1">
+            </div>
+            <div>
+                <label for="c2">c2:</label>
+                <input type="number" id="c2" value="1">
+            </div>
+        </div>
+        
+        <div class="input-fields">
+            <div>
+                <label for="a3">a3:</label>
+                <input type="number" id="a3" value="-1">
+            </div>
+            <div>
+                <label for="b3">b3:</label>
+                <input type="number" id="b3" value="3">
+            </div>
+            <div>
+                <label for="c3">c3:</label>
+                <input type="number" id="c3" value="-2">
+            </div>
+        </div>
+        
+        <div class="button-container">
+            <button onclick="plotGraph()">Plot Graph</button>
+        </div>
+
+        <!-- Graph Display -->
+        <div id="chart" class="chart-container"></div>
+    </div>
+
+    <script>
+        function plotGraph() {
+            // Get the input values for the coefficients
+            const a1 = parseFloat(document.getElementById('a1').value);
+            const b1 = parseFloat(document.getElementById('b1').value);
+            const c1 = parseFloat(document.getElementById('c1').value);
+
+            const a2 = parseFloat(document.getElementById('a2').value);
+            const b2 = parseFloat(document.getElementById('b2').value);
+            const c2 = parseFloat(document.getElementById('c2').value);
+
+            const a3 = parseFloat(document.getElementById('a3').value);
+            const b3 = parseFloat(document.getElementById('b3').value);
+            const c3 = parseFloat(document.getElementById('c3').value);
+
+            // Generate the x values (from -10 to 10)
+            const x = Array.from({length: 400}, (_, i) => -10 + i * 0.05);
+
+            // Calculate y values for each equation
+            const y1 = x.map(xi => a1 * Math.pow(xi, 2) + b1 * xi + c1);
+            const y2 = x.map(xi => a2 * Math.pow(xi, 2) + b2 * xi + c2);
+            const y3 = x.map(xi => a3 * Math.pow(xi, 2) + b3 * xi + c3);
+
+            // Create the plot data
+            const trace1 = {
+                x: x,
+                y: y1,
+                type: 'scatter',
+                mode: 'lines',
+                name: `Equation 1: ${a1}x^2 + ${b1}x + ${c1}`,
+                line: {color: 'blue'}
+            };
+
+            const trace2 = {
+                x: x,
+                y: y2,
+                type: 'scatter',
+                mode: 'lines',
+                name: `Equation 2: ${a2}x^2 + ${b2}x + ${c2}`,
+                line: {color: 'green'}
+            };
+
+            const trace3 = {
+                x: x,
+                y: y3,
+                type: 'scatter',
+                mode: 'lines',
+                name: `Equation 3: ${a3}x^2 + ${b3}x + ${c3}`,
+                line: {color: 'red'}
+            };
+
+            const layout = {
+                title: 'Quadratic Equations',
+                xaxis: {
+                    title: 'x',
+                    showgrid: true
+                },
+                yaxis: {
+                    title: 'y',
+                    showgrid: true
+                }
+            };
+
+            const data = [trace1, trace2, trace3];
+
+            // Plot the graph using Plotly
+            Plotly.newPlot('chart', data, layout);
+        }
+    </script>
+</body>
+</html>
